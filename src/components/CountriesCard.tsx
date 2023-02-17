@@ -11,11 +11,10 @@ import { Country } from "../interface";
 
 type IProps = {
   element: Country;
-  loading: boolean;
   search: string;
 };
 
-const CountriesCard = ({ element, loading, search }: IProps) => {
+const CountriesCard = ({ element, search }: IProps) => {
   const style = {
     display: "flex",
     gap: "5px",
@@ -23,7 +22,7 @@ const CountriesCard = ({ element, loading, search }: IProps) => {
   } as const;
 
   return (
-    <Card sx={{ width: 400, borderRadius: "20px", border: "1px solid black" }}>
+    <Card sx={{ width: 300, borderRadius: "20px", border: "1px solid black" }}>
       <CardContent>
         <Box
           sx={{

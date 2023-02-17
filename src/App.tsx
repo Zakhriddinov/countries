@@ -52,11 +52,7 @@ const App = () => {
           data?.countries?.map((item, i) => {
             return (
               <React.Fragment key={i}>
-                <CountriesCard
-                  element={item}
-                  loading={loading}
-                  search={debouncedValue}
-                />
+                <CountriesCard element={item} search={debouncedValue} />
               </React.Fragment>
             );
           })
