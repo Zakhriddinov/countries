@@ -35,7 +35,7 @@ const CountriesCard = ({ element, loading, search }: IProps) => {
         >
           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
             <img
-              src={`https://flagcdn.com/120x90/${search}.png`}
+              src={`https://flagcdn.com/120x90/${search.toLowerCase()}.png`}
               alt={element?.name}
               width={50}
             />
@@ -64,8 +64,8 @@ const CountriesCard = ({ element, loading, search }: IProps) => {
           <Box sx={style}>
             <LanguageIcon sx={{ maxWidth: "18px" }} />
             <Typography sx={{ fontSize: "14px", gap: "5px", display: "flex" }}>
-              {element?.languages?.map((item) => {
-                return <span>{item?.name}</span>;
+              {element?.languages?.map((item, i) => {
+                return <span key={i}>{item?.name}</span>;
               })}
             </Typography>
           </Box>

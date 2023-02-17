@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import SearchForm from "./components/SearchForm";
 import Title from "./components/Title";
 import CountriesCard from "./components/CountriesCard";
@@ -12,7 +12,9 @@ import Typography from "@mui/material/Typography";
 
 const App = () => {
   const [search, setSearch] = useState<string>("");
-  const debouncedValue = useDebounce(search, 195);
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  let validate = search.length === 2 ? search : "";
+  const debouncedValue = useDebounce(validate, 195);
 
   const { data, loading } = useQuery<Data>(COUNTRIES_QUERY, {
     variables: {
@@ -20,7 +22,9 @@ const App = () => {
     },
   });
 
-  useEffect(() => {}, [search, debouncedValue]);
+  useEffect(() => {
+    inputRef?.current?.focus();
+  }, [search, debouncedValue]);
 
   return (
     <Grid
@@ -35,7 +39,7 @@ const App = () => {
         <Title />
       </Grid>
       <Grid item xs={2} sm={4} md={4}>
-        <SearchForm search={search} setSearch={setSearch} />
+        <SearchForm search={search} setSearch={setSearch} inputRef={inputRef} />
       </Grid>
       <Grid item xs={2} sm={4} md={4}>
         {loading ? (
@@ -45,13 +49,20 @@ const App = () => {
             Information is not available
           </Typography>
         ) : (
-          data?.countries?.map((item) => {
+          data?.countries?.map((item, i) => {
             return (
-              <CountriesCard element={item} loading={loading} search={search} />
+              <React.Fragment key={i}>
+                <CountriesCard
+                  element={item}
+                  loading={loading}
+                  search={debouncedValue}
+                />
+              </React.Fragment>
             );
           })
         )}
       </Grid>
+      {/* <input type="text" ref={inputRef} /> */}
     </Grid>
   );
 };
