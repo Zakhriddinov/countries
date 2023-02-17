@@ -7,7 +7,7 @@ type IProps = {
 };
 const SearchForm = ({ search, setSearch }: IProps) => {
   const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value.toUpperCase());
+    setSearch(e.target.value);
   };
   return (
     <Paper

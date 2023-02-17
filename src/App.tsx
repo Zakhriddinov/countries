@@ -8,13 +8,15 @@ import { Data } from "./interface";
 import { COUNTRIES_QUERY } from "./graphql/queries";
 import { useDebounce } from "./hooks/useDebounce";
 import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
 
 const App = () => {
   const [search, setSearch] = useState<string>("");
   const debouncedValue = useDebounce(search, 195);
+
   const { data, loading } = useQuery<Data>(COUNTRIES_QUERY, {
     variables: {
-      codes: debouncedValue,
+      codes: debouncedValue.toUpperCase(),
     },
   });
 
@@ -39,10 +41,14 @@ const App = () => {
         {loading ? (
           <CircularProgress />
         ) : data?.countries?.length === 0 ? (
-          <h2>Oka search qivoring!</h2>
+          <Typography variant="body1" component="h6">
+            Information is not available
+          </Typography>
         ) : (
           data?.countries?.map((item) => {
-            return <CountriesCard element={item} loading={loading} />;
+            return (
+              <CountriesCard element={item} loading={loading} search={search} />
+            );
           })
         )}
       </Grid>

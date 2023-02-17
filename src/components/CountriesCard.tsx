@@ -8,13 +8,15 @@ import { Card } from "@mui/material";
 import React from "react";
 import "./style.css";
 import { Country } from "../interface";
-import ReactCountryFlag from "react-country-flag";
+// import ReactCountryFlag from "react-country-flag";
 
 type IProps = {
   element: Country;
   loading: boolean;
+  search: string;
 };
-const CountriesCard = ({ element, loading }: IProps) => {
+
+const CountriesCard = ({ element, loading, search }: IProps) => {
   const style = {
     display: "flex",
     gap: "5px",
@@ -33,16 +35,10 @@ const CountriesCard = ({ element, loading }: IProps) => {
           }}
         >
           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <ReactCountryFlag
-              countryCode={'uz'}
-              svg
-              cdnUrl="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/1x1/"
-              cdnSuffix="svg"
-              title={element?.emoji}
-              style={{
-                width: "3em",
-                height: "2em",
-              }}
+            <img
+              src={`https://flagcdn.com/120x90/${search}.png`}
+              alt={element?.name}
+              width={50}
             />
             <div>
               <Typography variant="h6" component={"h5"}>
