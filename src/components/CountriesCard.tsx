@@ -8,7 +8,6 @@ import { Card } from "@mui/material";
 import React from "react";
 import "./style.css";
 import { Country } from "../interface";
-// import ReactCountryFlag from "react-country-flag";
 
 type IProps = {
   element: Country;
