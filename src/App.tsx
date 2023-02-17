@@ -1,11 +1,25 @@
-import React from "react";
-import { Container } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import SearchForm from "./components/SearchForm";
 import Title from "./components/Title";
 import CountriesCard from "./components/CountriesCard";
 import { Grid } from "@mui/material";
+import { useQuery } from "@apollo/client";
+import { Data } from "./interface";
+import { COUNTRIES_QUERY } from "./graphql/queries";
+import { useDebounce } from "./hooks/useDebounce";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const App = () => {
+  const [search, setSearch] = useState<string>("");
+  const debouncedValue = useDebounce(search, 195);
+  const { data, loading } = useQuery<Data>(COUNTRIES_QUERY, {
+    variables: {
+      codes: debouncedValue,
+    },
+  });
+
+  useEffect(() => {}, [search, debouncedValue]);
+
   return (
     <Grid
       container
@@ -19,10 +33,18 @@ const App = () => {
         <Title />
       </Grid>
       <Grid item xs={2} sm={4} md={4}>
-        <SearchForm />
+        <SearchForm search={search} setSearch={setSearch} />
       </Grid>
       <Grid item xs={2} sm={4} md={4}>
-        <CountriesCard />
+        {loading ? (
+          <CircularProgress />
+        ) : data?.countries?.length === 0 ? (
+          <h2>Oka search qivoring!</h2>
+        ) : (
+          data?.countries?.map((item) => {
+            return <CountriesCard element={item} loading={loading} />;
+          })
+        )}
       </Grid>
     </Grid>
   );
